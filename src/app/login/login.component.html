@@ -1,17 +1,19 @@
 <div class="container">
-    <form class="login-card">
+    <form class="login-card" [formGroup]="formGroup">
         <mat-card>
             <h1>Login - Nero Delivery</h1>
             <mat-form-field class="example-full-width">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="enter your username">
+                <input matInput placeholder="enter your username" formControlName="email">
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="Write your password">
+                <input matInput placeholder="Write your password" type="password" formControlName="password">
             </mat-form-field>
-            <button mat-button color="primary">Login</button>
+            <button mat-button color="primary"
+                    (click)="login()" [disabled]="formGroup.invalid"
+            >Login</button>
         </mat-card>
     </form>
 </div>

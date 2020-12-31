@@ -1,0 +1,24 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.menu, mat-drawer-container {
+  height: calc(100vh - 64px);
+}
+.menu {
+  min-width: 200px;
+
+  ul {
+    list-style: none;
+    padding-left: 1em;
+  }
+}
+
+.title {
+  color: white;
+  text-decoration: none;
+}
+
+mat-drawer-content {
+  padding: 20px;
+}
