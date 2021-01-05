@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {AuthService} from "../../auth/auth.service";
 
 @Component({
@@ -6,16 +6,11 @@ import {AuthService} from "../../auth/auth.service";
   templateUrl: './menu-layout.component.html',
   styleUrls: ['./menu-layout.component.scss']
 })
-export class MenuLayoutComponent implements OnInit {
-
+export class MenuLayoutComponent {
 
   constructor(private readonly authService: AuthService) { }
-
-  ngOnInit(): void {
-  }
 
   signOut() {
     this.authService.signOut();
   }
-
 }

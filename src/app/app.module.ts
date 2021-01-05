@@ -13,15 +13,18 @@ import {AuthGuardService} from './auth/auth.guard.service';
 import {environment} from '../environments/environment';
 import { ProfileComponent } from './profile/profile.component';
 import { MenuLayoutComponent } from './layouts/home-layout/menu-layout.component';
-import {MatButtonModule} from "@angular/material/button";
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 import { NewDeliveryComponent } from './deliveries/new-delivery/new-delivery.component';
-import {MatCardModule} from "@angular/material/card";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {ReactiveFormsModule} from "@angular/forms";
-import {MatInputModule} from "@angular/material/input";
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import { RegisterNewUserComponent } from './register-new-user/register-new-user.component';
+import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import {MatInputModule} from "@angular/material/input";
     ProfileComponent,
     MenuLayoutComponent,
     NewDeliveryComponent,
+    RegisterNewUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,8 +50,9 @@ import {MatInputModule} from "@angular/material/input";
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
+    AngularFirestoreModule,
   ],
-  providers: [AuthGuardService],
+  providers: [AuthGuardService, AngularFireAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
         .pipe(map((result) => {
           console.log('result', result);
           if (result) {
-              return this.router.navigate(['home']);
+              return this.router.navigate([`profile/${result.user.uid}`]);
           } else {
               return throwError(false);
           }

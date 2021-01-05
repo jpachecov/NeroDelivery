@@ -1,0 +1,36 @@
+<div class="container">
+    <form class="login-card" [formGroup]="formGroup">
+        <mat-card>
+            <h1>Nuevo usuario - Nero Delivery</h1>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="enter your first name" formControlName="firstName">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Apellido</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="lastName">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="enter your email" formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Write your password" type="password" formControlName="password">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Confirm your password" type="password" formControlName="passConfirmation">
+            </mat-form-field>
+
+            <button mat-button color="primary"
+                    (click)="register()" [disabled]="formGroup.invalid || !isPasswordConfirmed()"
+            >Sign up</button>
+        </mat-card>
+    </form>
+</div>

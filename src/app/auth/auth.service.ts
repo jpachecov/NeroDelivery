@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {catchError, map, share, tap} from 'rxjs/operators';
+import {map, share, tap} from 'rxjs/operators';
 import firebase from 'firebase';
 import User = firebase.User;
 import {Router} from '@angular/router';
-import {from, Observable, of as observableOf, throwError} from 'rxjs';
-
+import {from, Observable, of as observableOf} from 'rxjs';
+import {UserProfile} from './user-profile.model';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class AuthService {
 
   constructor(
       private readonly afAuth: AngularFireAuth,
-      private readonly router: Router
+      private readonly router: Router,
+      private readonly afs: AngularFirestore
   ) {
 
     this.user = this.afAuth.authState.pipe(
@@ -43,7 +45,7 @@ export class AuthService {
                 console.log('SignInResult', signInResult);
             }),
             map((result) => {
-            return !!result;
+            return result;
     }));
   }
 
@@ -51,7 +53,26 @@ export class AuthService {
       return this.isLogged;
   }
 
-  signOut() {
-      this.afAuth.signOut();
+  signOut(): void {
+      this.afAuth.signOut().then(() => {
+          this.router.navigate(['login']);
+      });
+  }
+
+  async createUserDocument(): Promise<void> {
+      const user: User = await this.afAuth.currentUser;
+      const userProfile: UserProfile = {
+        uid: user.uid,
+        address: '',
+        city: '',
+        email: user.email,
+        ip: '',
+        firstName: user.displayName,
+        lastName: user.displayName,
+        phone: '',
+        state: '',
+        zipCode: ''
+      };
+      return this.afs.doc(`users/${user.uid}`).set(userProfile);
   }
 }

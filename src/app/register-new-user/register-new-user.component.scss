@@ -1,0 +1,16 @@
+.container {
+  align-items: center;
+  background: #5589ff;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.login-card {
+  flex-direction: row;
+  min-width: 350px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
