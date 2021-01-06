@@ -1,7 +1,15 @@
 <div class="container">
     <form class="login-card" [formGroup]="formGroup">
         <mat-card>
-            <h1>Nuevo usuario - Nero Delivery</h1>
+
+            <p>¿Qué deseas hacer?</p>
+            <mat-button-toggle-group name="userType" aria-label="Font Style" formControlName="userType">
+                <mat-button-toggle value="business">Enviar paquetes</mat-button-toggle>
+                <mat-button-toggle value="nero">Entregar paquetes</mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <h1 *ngIf="formGroup.get('userType').value === 'business'">Nuevo usuario - Nero Delivery</h1>
+            <h1 *ngIf="formGroup.get('userType').value === 'nero'">Nuevo repartidor - Nero Delivery</h1>
 
             <mat-form-field class="example-full-width">
                 <mat-label>Nombre</mat-label>
@@ -31,6 +39,8 @@
             <button mat-button color="primary"
                     (click)="register()" [disabled]="formGroup.invalid || !isPasswordConfirmed()"
             >Sign up</button>
+
+            <p class="foot-note">Una vez creada tu cuenta podrás agregar o modificar tu información.</p>
         </mat-card>
     </form>
 </div>

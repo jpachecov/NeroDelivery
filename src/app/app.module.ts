@@ -20,11 +20,12 @@ import {MatIconModule} from '@angular/material/icon';
 import { NewDeliveryComponent } from './deliveries/new-delivery/new-delivery.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { RegisterNewUserComponent } from './register-new-user/register-new-user.component';
 import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -35,23 +36,25 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
     NewDeliveryComponent,
     RegisterNewUserComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LoginModule,
-    BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    AngularFirestoreModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        LoginModule,
+        BrowserAnimationsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        FormsModule,
+        AngularFirestoreModule,
+        MatButtonToggleModule,
+    ],
   providers: [AuthGuardService, AngularFireAuthGuard],
   bootstrap: [AppComponent]
 })

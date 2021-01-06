@@ -11,30 +11,6 @@ export interface Delivery {
     routeManId?: string;
 }
 
-export interface LoadPackageInfo {
-    externalKey?: string;
-    description?: string;
-    dimensions?: string;
-    weight?: string;
-}
-
-export interface ContactInformation {
-    name?: string;
-    phone?: string;
-    email?: string;
-}
-
-export interface Place {
-    // The complete direction
-    address?: string;
-    street?: string;
-    state?: string;
-    zipCode?: string;
-    mapsUrl?: string;
-    // Usually used to describe the place.
-    references?: string;
-}
-
 export interface UserProfile {
     uid?: string;
     role?: UserRole;
@@ -66,6 +42,32 @@ export interface NeroInformation {
     zipCode?: string;
     phone?: string;
     rfc?: string;
+}
+
+export interface LoadPackageInfo {
+    externalKey?: string;
+    description?: string;
+    dimensions?: string;
+    weight?: string;
+}
+
+export interface ContactInformation {
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+    email?: string;
+}
+
+export interface Place {
+    // The complete direction
+    address?: string;
+    street?: string;
+    state?: string;
+    city?: string;
+    zipCode?: string;
+    mapsUrl?: string;
+    // Usually used to describe the place.
+    references?: string;
 }
 
 export enum DeliveryState {

@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import User = firebase.User;
 import {Router} from '@angular/router';
 import {from, Observable, of as observableOf} from 'rxjs';
-import {UserProfile} from './user-profile.model';
+import {UserProfile} from '../core/business.model';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 @Injectable({
@@ -59,20 +59,8 @@ export class AuthService {
       });
   }
 
-  async createUserDocument(): Promise<void> {
-      const user: User = await this.afAuth.currentUser;
-      const userProfile: UserProfile = {
-        uid: user.uid,
-        address: '',
-        city: '',
-        email: user.email,
-        ip: '',
-        firstName: user.displayName,
-        lastName: user.displayName,
-        phone: '',
-        state: '',
-        zipCode: ''
-      };
-      return this.afs.doc(`users/${user.uid}`).set(userProfile);
+  async createUserDocument(userProfile: UserProfile): Promise<void> {
+      return this.afs.doc(`users/${userProfile.uid}`).set(userProfile);
+
   }
 }

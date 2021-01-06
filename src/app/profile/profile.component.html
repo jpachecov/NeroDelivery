@@ -1,6 +1,11 @@
-<p *ngIf="item | async as userRaw">{{userRaw | json}}</p>
+<ng-container *ngIf="userProfile | async">
+    <h1 *ngIf="isBusiness() | async">Es negocio</h1>
+    <h1 *ngIf="isRouteMan() | async">Es repartidor</h1>
+</ng-container>
 
-<form *ngIf="item | async" [formGroup]="formGroup">
+<p *ngIf="userProfile | async as userRaw">{{userRaw | json}}</p>
+
+<form *ngIf="userProfile | async" [formGroup]="formGroup">
     <mat-card class="edit-card">
         <h1>Editar Datos</h1>
 
