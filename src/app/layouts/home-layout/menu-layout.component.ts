@@ -10,7 +10,7 @@ import {catchError, switchMap, take} from 'rxjs/operators';
 })
 export class MenuLayoutComponent {
 
-  isBusiness: Observable<boolean>;
+  isBusiness$: Observable<boolean>;
 
   constructor(private readonly authService: AuthService) {
     const uid$ = authService.user.pipe(
@@ -23,7 +23,7 @@ export class MenuLayoutComponent {
         })
     );
 
-    this.isBusiness = uid$.pipe(
+    this.isBusiness$ = uid$.pipe(
         take(1),
         switchMap((uid) => authService.isBusinessAccount(uid)),
         catchError(() => of(false)),

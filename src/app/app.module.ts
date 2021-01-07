@@ -24,16 +24,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { RegisterNewUserComponent } from './register-new-user/register-new-user.component';
 import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFirestoreModule, SETTINGS as FIRESTORE_SETTINGS} from '@angular/fire/firestore';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDividerModule} from '@angular/material/divider';
+import {USE_EMULATOR as AUTH_EMULATOR_SETTINGS} from "@angular/fire/auth";
 import {AuthBusinessGuardService} from './auth/auth.business.guard.service';
 import { DeliveriesListComponent } from './deliveries/deliveries-list/deliveries-list.component';
-import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { DetailComponent } from './deliveries/detail/detail.component';
 import { DeliveryDetailDialogComponent } from './deliveries/dialog/delivery-detail-dialog/delivery-detail-dialog.component';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from '@angular/material/dialog';
 import { DeliveryTrackComponent } from './deliveries/track/delivery-track/delivery-track.component';
 
 @NgModule({
@@ -50,7 +51,19 @@ import { DeliveryTrackComponent } from './deliveries/track/delivery-track/delive
     DeliveryTrackComponent,
   ],
   imports: [BrowserModule, MatDialogModule, AppRoutingModule, LoginModule, BrowserAnimationsModule, AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormsModule, AngularFirestoreModule, MatButtonToggleModule, MatDividerModule, MatTableModule, MatPaginatorModule],
-  providers: [AuthGuardService, AngularFireAuthGuard, AuthBusinessGuardService],
+  providers: [AuthGuardService, AngularFireAuthGuard, AuthBusinessGuardService,
+    {
+      provide: FIRESTORE_SETTINGS,
+      useValue: environment.firestoreEmulator ? {
+        host: 'localhost:8080',
+        ssl: false
+      } : undefined
+    },
+    {
+      provide: AUTH_EMULATOR_SETTINGS,
+      useValue: environment.authEmulator ? ['localhost', 9099 ] : undefined
+    }
+  ],
   entryComponents: [DeliveryDetailDialogComponent],
   bootstrap: [AppComponent]
 })

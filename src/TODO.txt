@@ -1,0 +1,4 @@
+* undefined values when updating profile causes errors.
+* Add spinner loaders where necessary.
+* Show errors properly along components.
+* Make required fields obvious to users.

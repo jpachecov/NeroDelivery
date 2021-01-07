@@ -7,11 +7,10 @@ import {MenuLayoutComponent} from './layouts/home-layout/menu-layout.component';
 import {NewDeliveryComponent} from './deliveries/new-delivery/new-delivery.component';
 import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
 import {map} from 'rxjs/operators';
-import {RegisterNewUserComponent} from "./register-new-user/register-new-user.component";
-import {AuthBusinessGuardService} from "./auth/auth.business.guard.service";
-import {DeliveriesListComponent} from "./deliveries/deliveries-list/deliveries-list.component";
-import {DetailComponent} from "./deliveries/detail/detail.component";
-import {DeliveryTrackComponent} from "./deliveries/track/delivery-track/delivery-track.component";
+import {RegisterNewUserComponent} from './register-new-user/register-new-user.component';
+import {AuthBusinessGuardService} from './auth/auth.business.guard.service';
+import {DeliveriesListComponent} from './deliveries/deliveries-list/deliveries-list.component';
+import {DeliveryTrackComponent} from './deliveries/track/delivery-track/delivery-track.component';
 
 const redirectUnauthorized = () => redirectUnauthorizedTo('login');
 const redirectLoggedIntoProfile = () =>

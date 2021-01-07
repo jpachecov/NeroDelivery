@@ -21,6 +21,7 @@ export class AuthService {
       private readonly router: Router,
       private readonly afs: AngularFirestore
   ) {
+      console.log('AUTH SERVICE');
 
     this.user = this.afAuth.authState.pipe(
         map((user) =>  user),
