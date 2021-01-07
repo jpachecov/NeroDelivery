@@ -13,10 +13,10 @@
 
 <mat-drawer-container class="example-container" [hasBackdrop]="false">
     <mat-drawer class="menu" #drawer mode="push">
-        <ul>
+        <ul *ngIf="isBusiness | async">
             <li><a routerLink="profile/123">Profile</a></li>
-            <li><a routerLink="profile/123">Mis entregas pendientes</a></li>
             <li><a routerLink="deliveries/new">Nueva entrega</a></li>
+            <li><a routerLink="deliveries">Entregas</a></li>
         </ul>
     </mat-drawer>
     <mat-drawer-content>

@@ -8,6 +8,10 @@ import {NewDeliveryComponent} from './deliveries/new-delivery/new-delivery.compo
 import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
 import {map} from 'rxjs/operators';
 import {RegisterNewUserComponent} from "./register-new-user/register-new-user.component";
+import {AuthBusinessGuardService} from "./auth/auth.business.guard.service";
+import {DeliveriesListComponent} from "./deliveries/deliveries-list/deliveries-list.component";
+import {DetailComponent} from "./deliveries/detail/detail.component";
+import {DeliveryTrackComponent} from "./deliveries/track/delivery-track/delivery-track.component";
 
 const redirectUnauthorized = () => redirectUnauthorizedTo('login');
 const redirectLoggedIntoProfile = () =>
@@ -54,6 +58,16 @@ const routes: Routes = [
       {
         path: 'deliveries/new',
         component: NewDeliveryComponent,
+        canActivate: [AuthBusinessGuardService],
+      },
+      {
+        path: 'deliveries',
+        component: DeliveriesListComponent,
+        canActivate: [AuthBusinessGuardService],
+      },
+      {
+        path: 'deliveries/track/:id',
+        component: DeliveryTrackComponent,
         canActivate: [AngularFireAuthGuard],
       },
     ],

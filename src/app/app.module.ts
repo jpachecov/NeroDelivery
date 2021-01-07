@@ -25,7 +25,16 @@ import {MatInputModule} from '@angular/material/input';
 import { RegisterNewUserComponent } from './register-new-user/register-new-user.component';
 import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDividerModule} from '@angular/material/divider';
+import {AuthBusinessGuardService} from './auth/auth.business.guard.service';
+import { DeliveriesListComponent } from './deliveries/deliveries-list/deliveries-list.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { DetailComponent } from './deliveries/detail/detail.component';
+import { DeliveryDetailDialogComponent } from './deliveries/dialog/delivery-detail-dialog/delivery-detail-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { DeliveryTrackComponent } from './deliveries/track/delivery-track/delivery-track.component';
 
 @NgModule({
   declarations: [
@@ -35,27 +44,14 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     MenuLayoutComponent,
     NewDeliveryComponent,
     RegisterNewUserComponent,
+    DeliveriesListComponent,
+    DetailComponent,
+    DeliveryDetailDialogComponent,
+    DeliveryTrackComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        LoginModule,
-        BrowserAnimationsModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFireAuthModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatCardModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        FormsModule,
-        AngularFirestoreModule,
-        MatButtonToggleModule,
-    ],
-  providers: [AuthGuardService, AngularFireAuthGuard],
+  imports: [BrowserModule, MatDialogModule, AppRoutingModule, LoginModule, BrowserAnimationsModule, AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormsModule, AngularFirestoreModule, MatButtonToggleModule, MatDividerModule, MatTableModule, MatPaginatorModule],
+  providers: [AuthGuardService, AngularFireAuthGuard, AuthBusinessGuardService],
+  entryComponents: [DeliveryDetailDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

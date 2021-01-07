@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
     state: new FormControl(''),
     rfc: new FormControl(''),
     uid: new FormControl('', []),
+    mapsUrl: new FormControl('', []),
   });
 
   constructor(readonly fAuth: AngularFireAuth,
@@ -56,6 +57,7 @@ export class ProfileComponent implements OnInit {
         this.formGroup.get('zipCode').setValue(user.businessInformation.place?.zipCode ?? '');
         this.formGroup.get('firstName').setValue(user.businessInformation.contact?.firstName);
         this.formGroup.get('lastName').setValue(user.businessInformation.contact?.lastName);
+        this.formGroup.get('mapsUrl').setValue(user.businessInformation.place?.mapsUrl);
       }
 
       if (user.role === UserRole.NERO) {
@@ -113,6 +115,7 @@ export class ProfileComponent implements OnInit {
                   zipCode: this.formGroup.get('zipCode').value,
                   address: this.formGroup.get('address').value,
                   city: this.formGroup.get('city').value,
+                  mapsUrl: this.formGroup.get('mapsUrl').value,
                 }
                 // TODO add field for business
               }
@@ -120,8 +123,9 @@ export class ProfileComponent implements OnInit {
           }
           return userProfile;
         }),
-            tap((userProfile) => console.log('before swichMap', userProfile)),
-            switchMap((userProfile: UserProfile) => this.afs.doc(`users/${this.uid}`).update(userProfile)),
+        tap((userProfile) => console.log('before swichMap', userProfile)),
+        switchMap((userProfile: UserProfile) => this.afs.doc(`users/${this.uid}`).update(userProfile)),
+        tap((result) => console.log(result))
     );
 
     saveInfo$.subscribe();

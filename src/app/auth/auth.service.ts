@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {map, share, tap} from 'rxjs/operators';
+import {map, share, take, tap} from 'rxjs/operators';
 import firebase from 'firebase';
-import User = firebase.User;
 import {Router} from '@angular/router';
 import {from, Observable, of as observableOf} from 'rxjs';
-import {UserProfile} from '../core/business.model';
+import {UserProfile, UserRole} from '../core/business.model';
 import {AngularFirestore} from '@angular/fire/firestore';
+import User = firebase.User;
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +58,22 @@ export class AuthService {
           this.router.navigate(['login']);
       });
   }
+
+  isBusinessAccount(uid: string): Observable<boolean> {
+      return this.afs.doc<UserProfile>(`users/${uid}`).valueChanges()
+          .pipe(
+              take(1),
+              map((user: UserProfile) => user.role === UserRole.BUSINESS)
+          );
+  }
+
+    isNeroAccount(uid: string): Observable<boolean> {
+        return this.afs.doc<UserProfile>(`users/${uid}`).valueChanges()
+            .pipe(
+                take(1),
+                map((user: UserProfile) => user.role === UserRole.NERO)
+            );
+    }
 
   async createUserDocument(userProfile: UserProfile): Promise<void> {
       return this.afs.doc(`users/${userProfile.uid}`).set(userProfile);

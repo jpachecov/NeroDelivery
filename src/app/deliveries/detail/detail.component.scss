@@ -1,0 +1,12 @@
+.line {
+  display: flex;
+  margin: 1em 0;
+  span {
+    flex: 1;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: baseline;
+    white-space: pre-wrap;
+  }
+}

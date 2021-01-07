@@ -1,0 +1,18 @@
+
+.mat-cell {
+  padding: 8px 8px 8px 0;
+}
+tr {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  th,td {
+    flex: 1;
+  }
+}
+
+mat-card-title {
+  margin-bottom: 2em;
+}
+

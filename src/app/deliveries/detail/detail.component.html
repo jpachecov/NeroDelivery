@@ -1,0 +1,86 @@
+<div *ngIf="delivery | async as delivery">
+
+    <div>
+        <h2>Datos del paquete</h2>
+        <div class="line">
+            <span>InternalID:</span>
+            <span>{{delivery.internalKey}}</span>
+        </div>
+
+        <div class="line">
+            <span>External Key:</span>
+            <span>{{delivery.packageInfo.externalKey}}</span>
+        </div>
+
+
+        <div class="line">
+            <span>Status:</span>
+            <span>{{getStatusName(delivery.status)}}</span>
+        </div>
+
+        <div class="line">
+            <span>Lugar de recolección:</span>
+            <span>
+                <ng-container *ngIf="delivery.recollectionPlace?.mapsUrl">
+                    <a target="_blank" href="{{delivery.recollectionPlace?.mapsUrl}}">
+                        {{delivery.recollectionPlace?.mapsUrl}}
+                    </a>
+                </ng-container>
+            </span>
+        </div>
+    </div>
+    <div>
+        <h2>Lugar de entrega</h2>
+        <div class="line">
+            <span>Maps URL:</span>
+            <span>
+                <ng-container *ngIf="delivery.deliveryPlace?.mapsUrl">
+                    <a target="_blank" href="{{delivery.deliveryPlace?.mapsUrl}}">
+                        {{delivery.deliveryPlace?.mapsUrl}}
+                    </a>
+                </ng-container>
+            </span>
+        </div>
+
+        <div class="line">
+            <span>Dirección</span>
+            <span>{{delivery.deliveryPlace.address}}</span>
+        </div>
+
+        <div class="line">
+            <span>Referencias</span>
+            <span>{{delivery.deliveryPlace.references}}</span>
+        </div>
+    </div>
+
+    <div>
+        <h2>Datos de quien recibe el paquete</h2>
+        <ng-container *ngIf="delivery.receiver.contact">
+            <div class="line">
+                <span>Nombre</span>
+                <span>{{delivery.receiver.contact.firstName}}</span>
+            </div>
+            <div class="line">
+                <span>WhatsApp</span>
+                <span>
+                    <a target="_blank" href="https://wa.me/{{delivery.receiver.contact.phone}}">
+                        {{delivery.receiver.contact.phone}}
+                    </a>
+                </span>
+            </div>
+            <div class="line">
+                <span>Phone</span>
+                <span>
+                    <a target="_blank" href="tel: {{delivery.receiver.contact.phone}}">
+                        {{delivery.receiver.contact.phone}}
+                    </a>
+                </span>
+            </div>
+            <div class="line" *ngIf="delivery.receiver.contact.email">
+                <span>email</span>
+                <span>{{delivery.receiver.contact.email}}</span>
+            </div>
+        </ng-container>
+    </div>
+
+</div>

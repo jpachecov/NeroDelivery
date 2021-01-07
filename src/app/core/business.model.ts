@@ -1,7 +1,7 @@
 export interface Delivery {
     internalKey?: string;
     packageInfo?: LoadPackageInfo;
-    sender?: BusinessInformation | PersonInformation;
+    senderId: string;
     receiver?: BusinessInformation | PersonInformation;
     recollectionPlace?: Place;
     deliveryPlace?: Place;
@@ -9,6 +9,8 @@ export interface Delivery {
     status: DeliveryState;
     // UID of the route man user.
     routeManId?: string;
+    // Creation date in milliseconds
+    creationDate?: number;
 }
 
 export interface UserProfile {
@@ -73,6 +75,7 @@ export interface Place {
 export enum DeliveryState {
     NEW,
     ASSIGNED,
+    ACCEPTED_BY_NERO,
     IN_TRANSIT,
     DELIVERED,
     CANCELED,
