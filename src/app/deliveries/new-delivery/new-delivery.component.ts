@@ -1,10 +1,13 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Delivery, DeliveryState, PersonInformation, UserProfile} from '../../core/business.model';
+import {
+  Delivery, DeliveryState, PersonInformation, UserProfile, UserRole,
+} from '../../core/business.model';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {from, Observable, throwError} from 'rxjs';
-import {shareReplay, switchMap, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {shareReplay, takeWhile, tap} from 'rxjs/operators';
+import {AuthService} from '../../auth/auth.service';
+import {produceRandom} from '../../utils/utilities';
 
 @Component({
   selector: 'app-new-delivery',
@@ -31,31 +34,35 @@ export class NewDeliveryComponent {
       mapsUrl: [''],
       references: ['']
     }),
+    routeManGroup: this.fb.group({
+      userId: [''],
+    })
   });
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly afs: AngularFirestore,
-              private readonly fAuth: AngularFireAuth) {
+  businessRouteMen: Observable<UserProfile[]>;
 
-    this.businessProfile = from(this.fAuth.currentUser).pipe(
-        switchMap((businessUser) => {
-              if (businessUser) {
-                return this.afs.doc<UserProfile>(`users/${businessUser.uid}`).valueChanges();
-              } else {
-                return throwError('No user');
-              }
-            }
-        ),
+  constructor(private readonly fb: FormBuilder,
+              private readonly auth: AuthService,
+              private readonly afs: AngularFirestore) {
+
+    this.businessProfile = this.auth.userProfile$.pipe(
+        takeWhile((userProfile) => userProfile.role === UserRole.BUSINESS),
         tap((user: UserProfile) => {
           this.businessId = user.uid;
           this.formGroup
               .get('pickupFormGroup')
               .get('mapsUrl')
-              .setValue(user.businessInformation.place?.mapsUrl);
+              .setValue(user.businessInformation.place?.mapsUrl ?? '');
         }),
         shareReplay(1)
     );
-    this.businessProfile.subscribe();
+    this.businessProfile.subscribe(
+        (businessProfile) => {
+          this.businessRouteMen = this.afs.collection<UserProfile>('users',
+              ref => ref.where('uid', 'in', businessProfile.businessInformation.deliveryMenIds))
+              .valueChanges();
+        }
+    );
   }
 
   async saveNewDelivery(): Promise<void> {
@@ -69,7 +76,7 @@ export class NewDeliveryComponent {
     };
 
     const deliveryInfo: Delivery = {
-      internalKey: this.produceRandom(25),
+      internalKey: produceRandom(25),
       status: DeliveryState.NEW,
       senderId: this.businessId,
       packageInfo: {
@@ -82,28 +89,33 @@ export class NewDeliveryComponent {
       recollectionPlace: {
         ...(this.formGroup.get('pickupFormGroup') as FormGroup).getRawValue()
       },
-      creationDate: (new Date()).getMilliseconds()
+      creationDate: (new Date()).getTime(),
+      routeManId: (this.formGroup.get('routeManGroup') as FormGroup).get('userId').value ?? ''
     };
 
-    console.log('New Delivery Obj', deliveryInfo);
-
-    const r = await this.afs
+    const updatePromise = await this.afs
         .doc(`deliveries/${deliveryInfo.internalKey}`)
         .set(deliveryInfo);
 
-    console.log('Guardado!');
     this.formGroup.reset();
-    return r;
+    this.formGroup.markAsUntouched();
+    this.formGroup.clearValidators();
+
+    return updatePromise;
   }
 
-  private produceRandom(length: number): string {
-    const random13chars = () => {
-      return Math.random().toString(16).substring(2, 15);
-    };
-    const loops = Math.ceil(length / 13);
-    return new Array(loops).fill(random13chars).reduce((crtString, func) => {
-      return crtString + func();
-    }, '').substring(0, length);
+  assignRouteMan(routeManId: string): void {
+    const formGroup = this.formGroup.get('routeManGroup') as FormGroup;
+    formGroup.get('userId').setValue(routeManId);
+  }
+
+  unAssignRouteMan(): void {
+    const formGroup = this.formGroup.get('routeManGroup') as FormGroup;
+    formGroup.get('userId').setValue('');
+  }
+
+  isPackageAssigned(): boolean {
+    return this.formGroup.get('routeManGroup').get('userId').value !== '';
   }
 
 }

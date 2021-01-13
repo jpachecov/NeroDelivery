@@ -1,83 +1,109 @@
-<mat-card>
-    <mat-card-title class="card-title">Nuevo paquete para entrega</mat-card-title>
-    <mat-divider></mat-divider>
-    <mat-card-content>
-        <form [formGroup]="formGroup">
-            <div formGroupName="packageFormGroup" class="group">
-                <h2>Datos del paquete</h2>
-                <div class="flex-adaptive">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>ExternalKey</mat-label>
-                        <input matInput formControlName="externalKey">
-                    </mat-form-field>
-                </div>
-                <div class="flex-adaptive">
-                    <mat-form-field class="text-area">
-                        <mat-label>Descripción</mat-label>
-                        <textarea matInput formControlName="description">
+<div class="card-container">
+    <mat-card>
+        <mat-card-title class="card-title">Nuevo paquete para entrega</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="formGroup">
+                <div formGroupName="packageFormGroup" class="group">
+                    <h2>Datos del paquete</h2>
+                    <div class="flex-full-width-row">
+                        <mat-form-field class="row-container">
+                            <mat-label>ExternalKey</mat-label>
+                            <input matInput formControlName="externalKey">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex-full-width-row">
+                        <mat-form-field class="text-area">
+                            <mat-label>Descripción</mat-label>
+                            <textarea matInput formControlName="description">
                         </textarea>
-                    </mat-form-field>
+                        </mat-form-field>
+                    </div>
                 </div>
-            </div>
-            <mat-divider></mat-divider>
-            <div formGroupName="pickupFormGroup" class="group">
-                <h2>Lugar de recolección</h2>
-                <div class="flex-adaptive">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Google Maps URL</mat-label>
-                        <input matInput formControlName="mapsUrl"/>
-                    </mat-form-field>
-                </div>
-                <mat-form-field class="text-area">
-                    <mat-label>Dirección completa</mat-label>
-                    <textarea matInput formControlName="address">
+                <mat-divider></mat-divider>
+                <div formGroupName="pickupFormGroup" class="group">
+                    <h2>Lugar de recolección</h2>
+                    <div class="flex-full-width-row">
+                        <mat-form-field class="row-container">
+                            <mat-label>Google Maps URL</mat-label>
+                            <input matInput formControlName="mapsUrl"/>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="text-area">
+                        <mat-label>Dirección completa</mat-label>
+                        <textarea matInput formControlName="address">
                     </textarea>
-                </mat-form-field>
-            </div>
-            <mat-divider></mat-divider>
-            <div formGroupName="deliveryFormGroup"  class="group">
-                <h2>Lugar de entrega y contacto</h2>
-                <div class="flex-adaptive">
-                    <mat-form-field>
-                        <mat-label>Nombre de quien recibe</mat-label>
-                        <input matInput
-                               placeholder="enter your username"
-                               formControlName="firstName">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Teléfono</mat-label>
-                        <input matInput placeholder="Teléfono" formControlName="phone">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Email</mat-label>
-                        <input matInput placeholder="email" formControlName="email">
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Google Maps URL</mat-label>
-                        <input matInput formControlName="mapsUrl"/>
                     </mat-form-field>
                 </div>
+                <mat-divider></mat-divider>
+                <div formGroupName="deliveryFormGroup"  class="group">
+                    <h2>Lugar de entrega y contacto</h2>
+                    <div class="flex-full-width-row">
+                        <mat-form-field>
+                            <mat-label>Nombre de quien recibe</mat-label>
+                            <input matInput
+                                   placeholder="enter your username"
+                                   formControlName="firstName">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="email" formControlName="email">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput placeholder="Teléfono" formControlName="phone">
+                        </mat-form-field>
+                    </div>
 
-                <mat-form-field class="text-area">
-                    <mat-label>Dirección</mat-label>
-                    <textarea matInput placeholder="Dirección completa" formControlName="address">
+                    <div class="align-place-details">
+                        <div class="row-container">
+                            <mat-form-field>
+                                <mat-label>Google Maps URL</mat-label>
+                                <input matInput formControlName="mapsUrl"/>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field class="text-area half-width">
+                            <mat-label>Dirección</mat-label>
+                            <textarea matInput placeholder="Dirección completa" formControlName="address">
                     </textarea>
-                </mat-form-field>
-                <mat-form-field class="text-area">
-                    <mat-label>Referencias</mat-label>
-                    <textarea
-                            matInput
-                            placeholder="Ejemplo: A lado de un oxxo"
-                            formControlName="references">
+                        </mat-form-field>
+                        <mat-form-field class="text-area half-width">
+                            <mat-label>Referencias</mat-label>
+                            <textarea
+                                    matInput
+                                    placeholder="Ejemplo: A lado de un oxxo"
+                                    formControlName="references">
                     </textarea>
-                </mat-form-field>
-            </div>
-            <button mat-button
-                    color="primary"
-                    (click)="saveNewDelivery()"
-                    [disabled]="formGroup.invalid">
-                Guardar
-            </button>
-        </form>
-    </mat-card-content>
-</mat-card>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div formGroupName="routeManGroup" class="group">
+                    <h2>Asignar a repartidor</h2>
+                    <div class="flex-full-width-row" *ngIf="!isPackageAssigned()">
+                        <ng-container *ngIf="businessRouteMen | async as routeMen">
+                            <div *ngFor="let man of routeMen">
+                                <p>{{man.neroInformation.firstName}}</p>
+                                <button (click)="assignRouteMan(man.uid)"
+                                        mat-button color="primary">Asignar</button>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div *ngIf="isPackageAssigned()">
+                        <p>Asignado</p>
+                        <button (click)="unAssignRouteMan()"
+                                mat-button color="primary">Quitar</button>
+                    </div>
+                </div>
+                <button mat-button
+                        color="primary"
+                        (click)="saveNewDelivery()"
+                        [disabled]="formGroup.invalid">
+                    Guardar
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

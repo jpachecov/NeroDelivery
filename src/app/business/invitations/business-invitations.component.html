@@ -1,0 +1,56 @@
+<p>Business invitations works!</p>
+<mat-card>
+    <mat-card-title>Inivitar repartidor</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="formGroup">
+            <mat-form-field class="row-container">
+                <mat-label>Dirección de correo</mat-label>
+                <input matInput placeholder="Dirección de correo" formControlName="neroEmail"/>
+            </mat-form-field>
+
+            <button
+                    mat-button
+                    color="primary"
+                    [disabled]="formGroup.invalid"
+                    (click)="triggerSearch()">
+                Buscar
+            </button>
+        </form>
+        <div>
+            <ng-container *ngIf="neroResult | async as nero">
+                <p>{{nero.neroInformation.firstName}}</p>
+                <p>{{nero.neroInformation.phone}}</p>
+                <p>{{nero.neroInformation.email}}</p>
+
+                <button (click)="inviteNero(nero)"
+                        mat-button
+                        color="primary"> Invitar </button>
+            </ng-container>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-title>Invitaciones enviadas</mat-card-title>
+    <mat-card-content>
+
+        <ng-container *ngIf="sentInvitations | async as sentInvitations">
+            <div *ngFor="let invitation of sentInvitations">
+                <p>Para: {{invitation.to.name}} - {{invitation.to.email}}</p>
+                <p>Estado: {{decideStatus(invitation.status)}}</p>
+            </div>
+        </ng-container>
+
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-title>Repartidores</mat-card-title>
+    <mat-card-content>
+        <ng-container *ngIf="businessRouteMen | async as deliveryMen">
+            <div *ngFor="let man of deliveryMen">
+                <p>{{man | json}}</p>
+            </div>
+        </ng-container>
+    </mat-card-content>
+</mat-card>

@@ -11,6 +11,9 @@ import {RegisterNewUserComponent} from './register-new-user/register-new-user.co
 import {AuthBusinessGuardService} from './auth/auth.business.guard.service';
 import {DeliveriesListComponent} from './deliveries/deliveries-list/deliveries-list.component';
 import {DeliveryTrackComponent} from './deliveries/track/delivery-track/delivery-track.component';
+import {AuthNeroGuardService} from "./auth/auth.nero.guard.service";
+import {NeroInvitationsComponent} from "./nero/invitations/nero-invitations.component";
+import {BusinessInvitationsComponent} from "./business/invitations/business-invitations.component";
 
 const redirectUnauthorized = () => redirectUnauthorizedTo('login');
 const redirectLoggedIntoProfile = () =>
@@ -68,6 +71,17 @@ const routes: Routes = [
         path: 'deliveries/track/:id',
         component: DeliveryTrackComponent,
         canActivate: [AngularFireAuthGuard],
+      },
+
+      {
+        path: 'business/invitations',
+        component: BusinessInvitationsComponent,
+        canActivate: [AuthBusinessGuardService],
+      },
+      {
+        path: 'nero/invitations',
+        component: NeroInvitationsComponent,
+        canActivate: [AuthNeroGuardService],
       },
     ],
   },

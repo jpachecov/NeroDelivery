@@ -1,0 +1,13 @@
+<mat-card>
+    <mat-card-title>Invitaciones Pendientes</mat-card-title>
+
+    <mat-card-content>
+        <ng-container *ngIf="receivedInvitations | async as pendingInvitations">
+            <div *ngFor="let invitation of pendingInvitations">
+                <p>De: {{invitation.from.name}}</p>
+                <button (click)="acceptInvitation(invitation)" mat-button color="primary">Aceptar</button>
+                <button (click)="declineInvitation(invitation)" mat-button color="primary">Declinar</button>
+            </div>
+        </ng-container>
+    </mat-card-content>
+</mat-card>

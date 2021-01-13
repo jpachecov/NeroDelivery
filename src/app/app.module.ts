@@ -27,7 +27,7 @@ import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
 import {AngularFirestoreModule, SETTINGS as FIRESTORE_SETTINGS} from '@angular/fire/firestore';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDividerModule} from '@angular/material/divider';
-import {USE_EMULATOR as AUTH_EMULATOR_SETTINGS} from "@angular/fire/auth";
+import {USE_EMULATOR as AUTH_EMULATOR_SETTINGS} from '@angular/fire/auth';
 import {AuthBusinessGuardService} from './auth/auth.business.guard.service';
 import { DeliveriesListComponent } from './deliveries/deliveries-list/deliveries-list.component';
 import {MatTableModule} from '@angular/material/table';
@@ -36,6 +36,10 @@ import { DetailComponent } from './deliveries/detail/detail.component';
 import { DeliveryDetailDialogComponent } from './deliveries/dialog/delivery-detail-dialog/delivery-detail-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DeliveryTrackComponent } from './deliveries/track/delivery-track/delivery-track.component';
+import { AssignedDeliveriesComponent } from './nero/assigned-deliveries/assigned-deliveries.component';
+import {AuthNeroGuardService} from "./auth/auth.nero.guard.service";
+import { NeroInvitationsComponent } from './nero/invitations/nero-invitations.component';
+import {BusinessInvitationsComponent} from "./business/invitations/business-invitations.component";
 
 @NgModule({
   declarations: [
@@ -49,19 +53,25 @@ import { DeliveryTrackComponent } from './deliveries/track/delivery-track/delive
     DetailComponent,
     DeliveryDetailDialogComponent,
     DeliveryTrackComponent,
+    AssignedDeliveriesComponent,
+    NeroInvitationsComponent,
+      BusinessInvitationsComponent,
   ],
-  imports: [BrowserModule, MatDialogModule, AppRoutingModule, LoginModule, BrowserAnimationsModule, AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormsModule, AngularFirestoreModule, MatButtonToggleModule, MatDividerModule, MatTableModule, MatPaginatorModule],
+  imports: [BrowserModule, MatDialogModule, AppRoutingModule, LoginModule, BrowserAnimationsModule, AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormsModule, AngularFirestoreModule, MatButtonToggleModule, MatDividerModule, MatTableModule, MatPaginatorModule, ],
   providers: [AuthGuardService, AngularFireAuthGuard, AuthBusinessGuardService,
+    AuthNeroGuardService,
     {
       provide: FIRESTORE_SETTINGS,
-      useValue: environment.firestoreEmulator ? {
-        host: 'localhost:8080',
-        ssl: false
-      } : undefined
+      useValue: environment.firestoreEmulator ?
+       {
+          host: 'localhost:8080',
+          ssl: false
+       } : undefined
     },
     {
       provide: AUTH_EMULATOR_SETTINGS,
-      useValue: environment.authEmulator ? ['localhost', 9099 ] : undefined
+      useValue: environment.authEmulator ?
+        ['localhost', 9099 ] : undefined
     }
   ],
   entryComponents: [DeliveryDetailDialogComponent],

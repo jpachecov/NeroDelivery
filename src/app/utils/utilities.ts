@@ -18,3 +18,13 @@ export function getDeliveryStatusName(status: DeliveryState): string {
             return 'Desconocido';
     }
 }
+
+export function produceRandom(length: number): string {
+    const random13chars = () => {
+        return Math.random().toString(16).substring(2, 15);
+    };
+    const loops = Math.ceil(length / 13);
+    return new Array(loops).fill(random13chars).reduce((crtString, func) => {
+        return crtString + func();
+    }, '').substring(0, length);
+}

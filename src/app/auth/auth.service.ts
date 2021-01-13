@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {map, share, take, tap} from 'rxjs/operators';
+import {catchError, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 import firebase from 'firebase';
 import {Router} from '@angular/router';
-import {from, Observable, of as observableOf} from 'rxjs';
+import {from, Observable, of as observableOf, throwError} from 'rxjs';
 import {UserProfile, UserRole} from '../core/business.model';
 import {AngularFirestore} from '@angular/fire/firestore';
 import User = firebase.User;
@@ -13,24 +13,35 @@ import User = firebase.User;
 })
 export class AuthService {
 
-  user: Observable<User | null>;
-  isLogged = observableOf(false);
+  user$: Observable<User | null>;
+  isLogged$ = observableOf(false);
+  userProfile$: Observable<UserProfile>;
 
   constructor(
       private readonly afAuth: AngularFireAuth,
       private readonly router: Router,
       private readonly afs: AngularFirestore
   ) {
-      console.log('AUTH SERVICE');
-
-    this.user = this.afAuth.authState.pipe(
+      this.user$ = this.afAuth.authState.pipe(
         map((user) =>  user),
-        share()
+        shareReplay(1)
     );
 
-    this.isLogged = this.afAuth.authState.pipe(
+      this.userProfile$ = this.user$.pipe(
+          map((user) => {
+              if (user) {
+                  return user.uid;
+              } else {
+                  return throwError('No user');
+              }
+          }),
+          switchMap((uid) => this.afs.doc<UserProfile>(`users/${uid}`).valueChanges()),
+          shareReplay(1),
+      );
+
+      this.isLogged$ = this.afAuth.authState.pipe(
         map((user) => !!user),
-        share(),
+        shareReplay(1),
     );
   }
 
@@ -51,7 +62,7 @@ export class AuthService {
   }
 
   isUserAuthenticated(): Observable<boolean> {
-      return this.isLogged;
+      return this.isLogged$;
   }
 
   signOut(): void {
@@ -60,21 +71,23 @@ export class AuthService {
       });
   }
 
-  isBusinessAccount(uid: string): Observable<boolean> {
-      return this.afs.doc<UserProfile>(`users/${uid}`).valueChanges()
+  isBusinessAccount(): Observable<boolean> {
+      return this.userProfile$
           .pipe(
               take(1),
-              map((user: UserProfile) => user.role === UserRole.BUSINESS)
+              map((user: UserProfile) => user.role === UserRole.BUSINESS),
+              catchError(() => observableOf(false))
           );
   }
 
-    isNeroAccount(uid: string): Observable<boolean> {
-        return this.afs.doc<UserProfile>(`users/${uid}`).valueChanges()
-            .pipe(
-                take(1),
-                map((user: UserProfile) => user.role === UserRole.NERO)
-            );
-    }
+  isNeroAccount(): Observable<boolean> {
+    return this.userProfile$
+        .pipe(
+            take(1),
+            map((user: UserProfile) => user.role === UserRole.NERO),
+            catchError(() => observableOf(false))
+        );
+  }
 
   async createUserDocument(userProfile: UserProfile): Promise<void> {
       return this.afs.doc(`users/${userProfile.uid}`).set(userProfile);

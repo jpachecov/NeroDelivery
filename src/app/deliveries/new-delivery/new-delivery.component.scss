@@ -1,4 +1,13 @@
-.example-full-width {
+.card-container {
+  display: flex;
+  justify-content: center;
+  mat-card {
+    flex: 1;
+    max-width: 600px;
+  }
+}
+
+.row-container {
   flex-direction: column;
   max-width: 500px;
 }
@@ -15,12 +24,13 @@ mat-form-field {
   }
 }
 
-.flex-adaptive {
+.flex-full-width-row {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 400px;
   mat-form-field {
-    flex: 1;
-    flex-direction: column;
+    flex: 1 1 100%;
     margin-right: .5em;
   }
 }
@@ -32,3 +42,17 @@ mat-form-field {
   padding: 2em 0;
 }
 
+.align-place-details {
+  display: flex;
+  width: 300px;
+  flex-wrap: wrap;
+}
+
+
+.url-c {
+  //flex: 1 2 100%;
+}
+.half-width {
+  //flex: 1 1 50%;
+  flex-direction: column;
+}

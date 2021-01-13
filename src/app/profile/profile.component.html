@@ -5,58 +5,71 @@
 
 <p *ngIf="userProfile | async as userRaw">{{userRaw | json}}</p>
 
+<form  *ngIf="userProfile | async" [formGroup]="businessGroup">
+    <div class="card-container" *ngIf="isBusinessAccount$ | async">
+        <mat-card>
+            <h1>Business Info</h1>
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre del negocio</mat-label>
+                <input matInput placeholder="enter your business name" formControlName="businessName">
+            </mat-form-field>
+        </mat-card>
+    </div>
+</form>
+
 <form *ngIf="userProfile | async" [formGroup]="formGroup">
-    <mat-card class="edit-card">
-        <h1>Editar Datos</h1>
+    <div class="card-container">
+        <mat-card class="edit-card">
+            <h2>Datos de contacto</h2>
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="enter your first name" formControlName="firstName">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="enter your first name" formControlName="firstName">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Apellido</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="lastName">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Apellido</mat-label>
-            <input matInput placeholder="enter your last name" formControlName="lastName">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="enter your email" formControlName="email">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="enter your email" formControlName="email">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Ciudad</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="city">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Ciudad</mat-label>
-            <input matInput placeholder="enter your last name" formControlName="city">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Estado</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="state">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Estado</mat-label>
-            <input matInput placeholder="enter your last name" formControlName="state">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Dirección</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="address">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Dirección</mat-label>
-            <input matInput placeholder="enter your last name" formControlName="address">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Maps URL</mat-label>
+                <input matInput placeholder="Enter a google maps URL" formControlName="mapsUrl">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Maps URL</mat-label>
-            <input matInput placeholder="Enter a google maps URL" formControlName="mapsUrl">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Codigo postal</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="zipCode">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Codigo postal</mat-label>
-            <input matInput placeholder="enter your last name" formControlName="zipCode">
-        </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Telefono</mat-label>
+                <input matInput placeholder="enter your last name" formControlName="phone">
+            </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Telefono</mat-label>
-            <input matInput placeholder="enter your last name" formControlName="phone">
-        </mat-form-field>
-
-        <button mat-button color="primary"
-                (click)="update()" [disabled]="formGroup.invalid"
-        >Actualizar</button>
-    </mat-card>
+            <button mat-button color="primary"
+                    (click)="update()" [disabled]="formGroup.invalid || businessGroup.invalid"
+            >Actualizar</button>
+        </mat-card>
+    </div>
 </form>
 

@@ -26,6 +26,9 @@ export interface BusinessInformation {
     rfc?: string;
     place?: Place;
     contact: ContactInformation;
+    // List containing all the ñeros bikers
+    // que esta empresa puede usar como repartidores.
+    deliveryMenIds?: string[];
 }
 
 export interface PersonInformation {
@@ -44,6 +47,9 @@ export interface NeroInformation {
     zipCode?: string;
     phone?: string;
     rfc?: string;
+    // Lista de todos los business para los que
+    // este NERO o REPARTIDOR reparte paquetes.
+    businessIds?: string[];
 }
 
 export interface LoadPackageInfo {
@@ -85,4 +91,25 @@ export enum UserRole {
     BUSINESS,
     NERO,
     ADMIN
+}
+
+export interface Invitation {
+    invitationId: string;
+    to?: {
+        uid?: string;
+        name?: string;
+        email?: string;
+    };
+    from?: {
+        uid?: string;
+        name?: string;
+        email?: string;
+    };
+    status: InvitationStatus;
+}
+
+export enum InvitationStatus {
+    PENDING,
+    ACCEPTED,
+    DECLINED
 }

@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deployFirestoreRules":  "firebase deploy --only firestore:rules",
+    "startEmulators": "firebase emulators:start --import=./simulatedData --export-on-exit"
   },
   "private": true,
   "dependencies": {

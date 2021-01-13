@@ -4,9 +4,9 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class AuthBusinessGuardService implements CanActivate {
+export class AuthNeroGuardService implements CanActivate {
     constructor(public auth: AuthService, public router: Router) {}
     canActivate(): Observable<boolean> {
-        return this.auth.isBusinessAccount();
+        return this.auth.isNeroAccount();
     }
 }

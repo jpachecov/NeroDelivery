@@ -3,11 +3,20 @@
   //display: flex;
   //flex: 1;
 }
-.example-full-width {
+.row-container {
   flex-direction: column;
   width: 100%;
 }
 
 mat-form-field {
   width: 100%;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  mat-card {
+    flex: 1;
+    max-width: 600px;
+  }
 }

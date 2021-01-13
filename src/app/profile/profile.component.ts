@@ -5,7 +5,7 @@ import {UserProfile, UserRole} from '../core/business.model';
 import {Observable} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 @Component({
@@ -33,10 +33,16 @@ export class ProfileComponent implements OnInit {
     mapsUrl: new FormControl('', []),
   });
 
-  constructor(readonly fAuth: AngularFireAuth,
-              private readonly afs: AngularFirestore,
+  businessGroup = this.fb.group({
+    businessName: ['', Validators.required]
+  });
+
+  isBusinessAccount$ = this.auth.isBusinessAccount();
+
+  constructor(private readonly afs: AngularFirestore,
               private readonly auth: AuthService,
-              private readonly route: ActivatedRoute) {
+              private readonly route: ActivatedRoute,
+              private readonly fb: FormBuilder) {
 
     this.uid = this.route.snapshot.paramMap.get('id');
   }
@@ -45,9 +51,12 @@ export class ProfileComponent implements OnInit {
     this.itemDoc = this.afs.doc<UserProfile>(`users/${this.uid}`);
     this.userProfile = this.itemDoc.valueChanges().pipe(tap((user) => {
 
-      console.log('user', user);
-
       if (user.role === UserRole.BUSINESS) {
+
+        this.businessGroup.get('businessName').setValue(
+            user.businessInformation.businessName ?? ''
+        );
+
         this.formGroup.get('rfc').setValue(user.businessInformation.rfc ?? '');
         this.formGroup.get('phone').setValue(user.businessInformation.contact?.phone);
         this.formGroup.get('address').setValue(user.businessInformation.place?.address);
@@ -104,6 +113,7 @@ export class ProfileComponent implements OnInit {
               role: UserRole.BUSINESS,
               businessInformation: {
                 rfc: this.formGroup.get('rfc').value,
+                businessName: this.businessGroup.get('businessName' ).value ?? '',
                 contact: {
                   firstName: this.formGroup.get('firstName').value,
                   lastName: this.formGroup.get('lastName').value,

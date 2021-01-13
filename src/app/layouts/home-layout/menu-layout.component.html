@@ -17,6 +17,12 @@
             <li><a routerLink="profile/123">Profile</a></li>
             <li><a routerLink="deliveries/new">Nueva entrega</a></li>
             <li><a routerLink="deliveries">Entregas</a></li>
+            <li><a routerLink="business/invitations">Invitar</a></li>
+        </ul>
+        <ul *ngIf="isRouteMan$ | async">
+            <li><a routerLink="profile/1">Mi perfil</a></li>
+            <li><a routerLink="deliveries/new">Paquetes asignados</a></li>
+            <li><a routerLink="nero/invitations">Invitaciones</a></li>
         </ul>
     </mat-drawer>
     <mat-drawer-content>
