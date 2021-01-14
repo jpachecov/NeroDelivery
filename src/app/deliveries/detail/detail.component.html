@@ -19,6 +19,13 @@
         </div>
 
         <div class="line">
+            <span>Repartidor::</span>
+            <span *ngIf="routeMan | async as routeMan">
+                {{routeMan.neroInformation.firstName}}
+            </span>
+        </div>
+
+        <div class="line">
             <span>Lugar de recolección:</span>
             <span>
                 <ng-container *ngIf="delivery.recollectionPlace?.mapsUrl">

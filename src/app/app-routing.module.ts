@@ -14,6 +14,7 @@ import {DeliveryTrackComponent} from './deliveries/track/delivery-track/delivery
 import {AuthNeroGuardService} from "./auth/auth.nero.guard.service";
 import {NeroInvitationsComponent} from "./nero/invitations/nero-invitations.component";
 import {BusinessInvitationsComponent} from "./business/invitations/business-invitations.component";
+import {AssignedDeliveriesComponent} from "./nero/assigned-deliveries/assigned-deliveries.component";
 
 const redirectUnauthorized = () => redirectUnauthorizedTo('login');
 const redirectLoggedIntoProfile = () =>
@@ -81,6 +82,11 @@ const routes: Routes = [
       {
         path: 'nero/invitations',
         component: NeroInvitationsComponent,
+        canActivate: [AuthNeroGuardService],
+      },
+      {
+        path: 'nero/packages',
+        component: AssignedDeliveriesComponent,
         canActivate: [AuthNeroGuardService],
       },
     ],

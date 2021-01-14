@@ -45,8 +45,15 @@ export class BusinessInvitationsComponent {
                             ref => ref.where('from.uid', '==', userProfile.uid))
                     .valueChanges();
 
-            this.businessRouteMen = this.afs.collection<UserProfile>('users',
-                ref => ref.where('uid', 'in', userProfile.businessInformation.deliveryMenIds))
+            this.businessRouteMen =
+                this.afs
+                    .collection<UserProfile>('users',
+                            ref => ref.where(
+                                'uid',
+                                'in',
+                                userProfile
+                                    .businessInformation
+                                    .deliveryMenIds))
                 .valueChanges();
         });
     }
@@ -67,7 +74,8 @@ export class BusinessInvitationsComponent {
             from: {
                 uid: this.businessProfile.uid,
                 name: this.businessProfile.businessInformation.businessName,
-            }, to: {
+            },
+            to: {
                 uid: neroProfile.uid,
                 name: neroProfile.neroInformation?.firstName + ' ' + neroProfile.neroInformation.lastName,
                 email: neroProfile.neroInformation.email

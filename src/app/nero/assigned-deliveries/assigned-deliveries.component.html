@@ -1,1 +1,44 @@
 <p>assigned-deliveries works!</p>
+
+
+<div>
+    <mat-card>
+        <mat-card-title>
+            Asignados
+        </mat-card-title>
+        <mat-card-content>
+            <ng-container *ngIf="assigned$ | async as assigned">
+                <div *ngFor="let assignedPackage of assigned">
+                    <p> {{assignedPackage.internalKey}}</p>
+                    <p> Para: {{assignedPackage.receiver.contact.firstName}}</p>
+                    <p> Entregar en {{assignedPackage.deliveryPlace.address}}</p>
+                    <p> Maps URL de entrega: {{assignedPackage.deliveryPlace.mapsUrl}}</p>
+                    <button (click)="openDeliveryDetail(assignedPackage)"
+                            mat-button color="primary">Ver detalle</button>
+                    <button (click)="acceptPackage(assignedPackage)"
+                            mat-button color="primary">Aceptar</button>
+                    <button mat-button color="primary">Rechazar</button>
+                </div>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-title>
+            Aceptados
+        </mat-card-title>
+        <mat-card-content>
+            <ng-container *ngIf="accepted$ | async as accepted">
+                <div *ngFor="let acceptedPackage of accepted">
+                    <p> {{acceptedPackage.internalKey}}</p>
+                    <p> Para: {{acceptedPackage.receiver.contact.firstName}}</p>
+                    <p> Entregar en {{acceptedPackage.deliveryPlace.address}}</p>
+                    <p> Maps URL de entrega: {{acceptedPackage.deliveryPlace.mapsUrl}}</p>
+                    <button (click)="openDeliveryDetail(acceptedPackage)"
+                            mat-button color="primary">Ver detalle</button>
+                </div>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
+
+</div>

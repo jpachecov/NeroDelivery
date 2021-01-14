@@ -61,6 +61,12 @@ export class NewDeliveryComponent {
           this.businessRouteMen = this.afs.collection<UserProfile>('users',
               ref => ref.where('uid', 'in', businessProfile.businessInformation.deliveryMenIds))
               .valueChanges();
+          const businessName = businessProfile.businessInformation.businessName;
+          const description = businessName ? `From ${businessName}` : '';
+          this.formGroup
+              .get('packageFormGroup')
+              .get('description')
+              .setValue(description);
         }
     );
   }
@@ -77,7 +83,7 @@ export class NewDeliveryComponent {
 
     const deliveryInfo: Delivery = {
       internalKey: produceRandom(25),
-      status: DeliveryState.NEW,
+      status: this.isPackageAssigned() ? DeliveryState.ASSIGNED : DeliveryState.NEW,
       senderId: this.businessId,
       packageInfo: {
         ...(this.formGroup.get('packageFormGroup') as FormGroup).getRawValue(),

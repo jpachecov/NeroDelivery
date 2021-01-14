@@ -2,3 +2,4 @@
 * Add spinner loaders where necessary.
 * Show errors properly along components.
 * Make required fields obvious to users.
+* Avoid send multiple invitations to same route man.
