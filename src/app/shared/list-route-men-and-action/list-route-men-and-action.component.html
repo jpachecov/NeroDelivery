@@ -1,0 +1,8 @@
+<ng-container *ngIf="businessRouteMen$ | async as routeMen">
+    <div *ngFor="let man of routeMen" class="mini-user-info">
+        <span class="photo"></span>
+        <p class="name">{{man.neroInformation.firstName}}</p>
+        <button (click)="doAction(man)"
+                mat-button color="primary">{{actionName}}</button>
+    </div>
+</ng-container>

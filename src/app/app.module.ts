@@ -40,6 +40,8 @@ import { AssignedDeliveriesComponent } from './nero/assigned-deliveries/assigned
 import {AuthNeroGuardService} from "./auth/auth.nero.guard.service";
 import { NeroInvitationsComponent } from './nero/invitations/nero-invitations.component';
 import {BusinessInvitationsComponent} from "./business/invitations/business-invitations.component";
+import { ListRouteMenAndActionComponent } from './shared/list-route-men-and-action/list-route-men-and-action.component';
+import { UserAndActionComponent } from './shared/user-and-action/user-and-action.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import {BusinessInvitationsComponent} from "./business/invitations/business-invi
     AssignedDeliveriesComponent,
     NeroInvitationsComponent,
       BusinessInvitationsComponent,
+      ListRouteMenAndActionComponent,
+      UserAndActionComponent,
   ],
   imports: [BrowserModule, MatDialogModule, AppRoutingModule, LoginModule, BrowserAnimationsModule, AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormsModule, AngularFirestoreModule, MatButtonToggleModule, MatDividerModule, MatTableModule, MatPaginatorModule, ],
   providers: [AuthGuardService, AngularFireAuthGuard, AuthBusinessGuardService,

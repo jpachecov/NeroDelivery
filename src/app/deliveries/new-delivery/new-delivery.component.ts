@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
   Delivery, DeliveryState, PersonInformation, UserProfile, UserRole,
 } from '../../core/business.model';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
-import {shareReplay, takeWhile, tap} from 'rxjs/operators';
+import {Observable, of, Subject} from 'rxjs';
+import {map, shareReplay, takeUntil, takeWhile, tap} from 'rxjs/operators';
 import {AuthService} from '../../auth/auth.service';
 import {produceRandom} from '../../utils/utilities';
 
@@ -14,7 +14,7 @@ import {produceRandom} from '../../utils/utilities';
   templateUrl: './new-delivery.component.html',
   styleUrls: ['./new-delivery.component.scss']
 })
-export class NewDeliveryComponent {
+export class NewDeliveryComponent implements OnDestroy {
   businessId = '';
   businessProfile: Observable<UserProfile>;
   formGroup = this.fb.group({
@@ -40,6 +40,8 @@ export class NewDeliveryComponent {
   });
 
   businessRouteMen: Observable<UserProfile[]>;
+  routeManAssigned: Observable<UserProfile>;
+  ngUnsubscribe = new Subject<boolean>();
 
   constructor(private readonly fb: FormBuilder,
               private readonly auth: AuthService,
@@ -58,9 +60,14 @@ export class NewDeliveryComponent {
     );
     this.businessProfile.subscribe(
         (businessProfile) => {
-          this.businessRouteMen = this.afs.collection<UserProfile>('users',
-              ref => ref.where('uid', 'in', businessProfile.businessInformation.deliveryMenIds))
-              .valueChanges();
+          try {
+            this.businessRouteMen =
+                this.afs.collection<UserProfile>('users',
+                        ref => ref.where('uid', 'in', businessProfile.businessInformation.deliveryMenIds))
+                .valueChanges();
+          } catch (e) {
+            this.businessRouteMen = of([]);
+          }
           const businessName = businessProfile.businessInformation.businessName;
           const description = businessName ? `From ${businessName}` : '';
           this.formGroup
@@ -69,6 +76,16 @@ export class NewDeliveryComponent {
               .setValue(description);
         }
     );
+
+    (this.formGroup.get('routeManGroup') as FormGroup).valueChanges.pipe(
+        tap((valueChanges) => {
+          if (valueChanges.userId) {
+            this.routeManAssigned =
+                this.afs.doc<UserProfile>(`users/${valueChanges.userId}`).valueChanges();
+          }
+        }),
+        takeUntil(this.ngUnsubscribe)
+    ).subscribe();
   }
 
   async saveNewDelivery(): Promise<void> {
@@ -122,6 +139,10 @@ export class NewDeliveryComponent {
 
   isPackageAssigned(): boolean {
     return this.formGroup.get('routeManGroup').get('userId').value !== '';
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next(true);
   }
 
 }

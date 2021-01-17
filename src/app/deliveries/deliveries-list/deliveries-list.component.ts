@@ -3,7 +3,7 @@ import {Delivery, DeliveryState} from '../../core/business.model';
 import {from, Observable, of} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {map, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {DeliveryDetailDialogComponent} from '../dialog/delivery-detail-dialog/delivery-detail-dialog.component';
 import {getDeliveryStatusName} from '../../utils/utilities';
@@ -42,9 +42,13 @@ export class DeliveriesListComponent implements OnInit {
   }
 
   openDetail(delivery: Delivery): void {
+    console.log('openDetail');
+    const passDelivery$ = this.afs.doc<Delivery>(`deliveries/${delivery.internalKey}`).valueChanges()
+        .pipe(tap((delivery) => console.log('value changed!', delivery)),
+            shareReplay(1));
     const dialogRef = this.dialog.open(DeliveryDetailDialogComponent, {
       width: '600px',
-      data: of(delivery)
+      data:  passDelivery$.pipe(takeUntil(this.dialog.afterAllClosed))
     });
   }
 

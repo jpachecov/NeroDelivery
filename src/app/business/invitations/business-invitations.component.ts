@@ -45,16 +45,20 @@ export class BusinessInvitationsComponent {
                             ref => ref.where('from.uid', '==', userProfile.uid))
                     .valueChanges();
 
-            this.businessRouteMen =
-                this.afs
-                    .collection<UserProfile>('users',
+            try {
+                this.businessRouteMen =
+                    this.afs
+                        .collection<UserProfile>('users',
                             ref => ref.where(
                                 'uid',
                                 'in',
                                 userProfile
                                     .businessInformation
                                     .deliveryMenIds))
-                .valueChanges();
+                        .valueChanges();
+            } catch (e) {
+                this.businessRouteMen = of([]);
+            }
         });
     }
 
@@ -100,5 +104,9 @@ export class BusinessInvitationsComponent {
             default:
                 return 'Unknown';
         }
+    }
+
+    ver(): void {
+
     }
 }

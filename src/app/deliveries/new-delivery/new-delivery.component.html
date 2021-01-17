@@ -78,21 +78,21 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div formGroupName="routeManGroup" class="group">
-                    <h2>Asignar a repartidor</h2>
+                    <h2>{{isPackageAssigned() ? 'Repartidor asignado' : 'Asignar a repartidor' }}</h2>
                     <div class="flex-full-width-row" *ngIf="!isPackageAssigned()">
-                        <ng-container *ngIf="businessRouteMen | async as routeMen">
-                            <div *ngFor="let man of routeMen">
-                                <p>{{man.neroInformation.firstName}}</p>
-                                <button (click)="assignRouteMan(man.uid)"
-                                        mat-button color="primary">Asignar</button>
-                            </div>
-                        </ng-container>
+                        <app-list-route-men-and-action
+                                actionName="Asignar"
+                                [businessProfile$]="businessProfile"
+                                (uuidEvent)="assignRouteMan($event)"
+                        ></app-list-route-men-and-action>
                     </div>
-
                     <div *ngIf="isPackageAssigned()">
-                        <p>Asignado</p>
-                        <button (click)="unAssignRouteMan()"
-                                mat-button color="primary">Quitar</button>
+                        <ng-container *ngIf="routeManAssigned | async as assigned">
+                            <app-user-and-action (eventEmitter)="unAssignRouteMan()"
+                                                 actionName="Quitar"
+                                                 [name]="assigned.neroInformation.firstName">
+                            </app-user-and-action>
+                        </ng-container>
                     </div>
                 </div>
                 <button mat-button

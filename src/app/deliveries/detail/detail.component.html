@@ -1,4 +1,4 @@
-<div *ngIf="delivery | async as delivery">
+<div *ngIf="delivery$ | async as delivery">
 
     <div>
         <h2>Datos del paquete</h2>
@@ -19,10 +19,25 @@
         </div>
 
         <div class="line">
-            <span>Repartidor::</span>
-            <span *ngIf="routeMan | async as routeMan">
-                {{routeMan.neroInformation.firstName}}
-            </span>
+            <ng-container *ngIf="delivery$ | async as delivery">
+                <ng-container *ngIf="delivery.routeManId !== '' else assign">
+                    <span>Repartidor asignado:</span>
+                    <ng-container *ngIf="routeMan$ | async as routeMan">
+                        <app-user-and-action (eventEmitter)="clearRouteMan()"
+                                             actionName="Quitar"
+                                             [name]="routeMan.neroInformation.firstName">
+                        </app-user-and-action>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-template #assign>
+                <span>No tiene repartidor asignado:</span>
+                <app-list-route-men-and-action
+                        actionName="Asignar"
+                        [businessProfile$]="businessProfile$"
+                        (uuidEvent)="assignRouteMan($event)"
+                ></app-list-route-men-and-action>
+            </ng-template>
         </div>
 
         <div class="line">

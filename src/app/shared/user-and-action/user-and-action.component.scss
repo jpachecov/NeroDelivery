@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: solid 1px #cacaca;
+  padding: 15px 10px;
+}
+
+.photo {
+  display: flex;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  background: palevioletred;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  &:before{
+    content: 'J';
+  }
+}
+
+.name {
+  padding: 5px;
+  margin: 0 10px;
+}
